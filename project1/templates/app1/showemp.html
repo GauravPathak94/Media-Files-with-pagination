@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>SHOW EMPLOYEE</title>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">eid</th>
+      <th scope="col">name</th>
+      <th scope="col">address</th>
+      <th scope="col">media</th>
+      <th>UPDATE</th>
+      <th>DELETE</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in obj %}
+    <tr>
+      <th>{{i.eid}}</th>
+      <td>{{i.name}}</td>
+      <td>{{i.address}}</td>
+      {% if i.file %}
+      <td><a href="{{i.file.url}}" >Click Here</a></td>
+      {% endif %}
+      <td><button class="btn btn-warning"><a href="{% url 'update_url' i.id %}">UPDATE</a></button></td>
+      <td><button class="btn btn-danger"><a  href="{% url 'delete_url' i.id %}">DELETE</a></button></td>
+      
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div>
+  {% if obj.has_previous %}
+  <a  href="{% url 'Show_url' obj.previous_page_number %}">Previous</a>
+  {% endif %}
+  <span class="mx-4">
+    Page {{ obj.number }} of {{ obj.paginator.num_pages }}
+  </span>
+
+  {% if obj.has_next %}
+    <a href="{% url 'Show_url' obj.next_page_number %}">Next</a>
+  {% endif %}
+</div>
+
+{% endblock %}
